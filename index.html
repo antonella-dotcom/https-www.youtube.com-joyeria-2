@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxe Joyas - Elegancia en cada detalle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header y Navegación */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #b8860b;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .logo i {
+            margin-right: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #b8860b;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #b8860b;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .nav-icons i {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-icons i:hover {
+            color: #b8860b;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Slider Principal */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 85vh;
+            min-height: 500px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .slide-1 {
+            background-image: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600');
+        }
+
+        .slide-2 {
+            background-image: url('https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1600');
+        }
+
+        .slide-3 {
+            background-image: url('https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=1600');
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+            padding: 2rem;
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .slide-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #b8860b;
+            color: #fff;
+            text-decoration: none;
+            border: 2px solid #b8860b;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: #fff;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background: rgba(184, 134, 11, 0.8);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #b8860b;
+            transform: scale(1.3);
+        }
+
+        /* Sección de Productos */
+        .section-title {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #333;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title .line {
+            width: 80px;
+            height: 2px;
+            background: #b8860b;
+            margin: 0 auto;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #b8860b;
+            color: #fff;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info .category {
+            color: #999;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            color: #b8860b;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .price .old {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .add-to-cart {
+            background: transparent;
+            border: 2px solid #b8860b;
+            color: #b8860b;
+            padding: 0.7rem 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .add-to-cart:hover {
+            background: #b8860b;
+            color: #fff;
+        }
+
+        /* Banner de Promoción */
+        .promo-banner {
+            background: linear-gradient(135deg, #b8860b 0%, #d4af37 100%);
+            color: #fff;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin: 3rem 0;
+        }
+
+        .promo-banner h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .promo-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .promo-banner .btn {
+            border-color: #fff;
+            background: #fff;
+            color: #b8860b;
+        }
+
+        .promo-banner .btn:hover {
+            background: transparent;
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+        }
+
+        .footer-col h3 {
+            color: #b8860b;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-col a:hover {
+            color: #b8860b;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+            color: #fff;
+            transition: all 0.3s;
+            margin: 0;
+        }
+
+        .social-icons a:hover {
+            background: #b8860b;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .slide-content h1 {
+                font-size: 2.5rem;
+            }
+            .slide-content p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 1rem 5%;
+                gap: 1rem;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s;
+                z-index: -1;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .slider-container {
+                height: 70vh;
+            }
+
+            .slide-content h1 {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .slide-content p {
+                font-size: 1rem;
+            }
+
+            .slider-btn {
+                font-size: 1.3rem;
+                padding: 0.7rem 0.9rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .promo-banner h2 {
+                font-size: 1.8rem;
+            }
+
+            .products {
+                padding: 2rem 1rem;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo"><i class="fas fa-gem"></i>LUXE</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#colecciones">Colecciones</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-heart"></i>
+                <i class="fas fa-shopping-bag"></i>
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Slider Banner -->
+    <section class="slider-container" id="inicio">
+        <div class="slide slide-1 active">
+            <div class="slide-content">
+                <h1>Elegancia Eterna</h1>
+                <p>Descubre nuestra colección exclusiva de joyas artesanales</p>
+                <a href="#productos" class="btn">Ver Colección</a>
+            </div>
+        </div>
+        <div class="slide slide-2">
+            <div class="slide-content">
+                <h1>Brillo Incomparable</h1>
+                <p>Diamantes y piedras preciosas seleccionadas con esmero</p>
+                <a href="#productos" class="btn">Explorar Ahora</a>
+            </div>
+        </div>
+        <div class="slide slide-3">
+            <div class="slide-content">
+                <h1>Momentos Inolvidables</h1>
+                <p>El regalo perfecto para las ocasiones más especiales</p>
+                <a href="#productos" class="btn">Descubrir Más</a>
+            </div>
+        </div>
+
+        <button class="slider-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+
+        <div class="slider-dots" id="dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </section>
+
+    <!-- Sección de Productos -->
+    <section id="productos">
+        <div class="section-title">
+            <h2>Productos Destacados</h2>
+            <div class="line"></div>
+        </div>
+
+        <div class="products">
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="badge">Nuevo</span>
+                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600" alt="Anillo de diamante">
+                </div>
+                <div class="product-info">
+                    <p class="category">Anillos</p>
+                    <h3>Anillo Solitario Diamante</h3>
+                    <p class="price">$1,299.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="badge">-20%</span>
+                    <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600" alt="Collar de oro">
+                </div>
+                <div class="product-info">
+                    <p class="category">Collares</p>
+                    <h3>Collar Cadena Oro 18k</h3>
+                    <p class="price"><span class="old">$899.00</span>$719.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600" alt="Aretes de perlas">
+                </div>
+                <div class="product-info">
+                    <p class="category">Aretes</p>
+                    <h3>Aretes Perla Natural</h3>
+                    <p class="price">$459.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="badge">Exclusivo</span>
+                    <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600" alt="Pulsera de oro">
+                </div>
+                <div class="product-info">
+                    <p class="category">Pulseras</p>
+                    <h3>Pulsera Oro Rosa</h3>
+                    <p class="price">$1,099.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600" alt="Anillo zafiro">
+                </div>
+                <div class="product-info">
+                    <p class="category">Anillos</p>
+                    <h3>Anillo Zafiro Azul</h3>
+                    <p class="price">$2,150.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="badge">-15%</span>
+                    <img src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=600" alt="Collar de diamantes">
+                </div>
+                <div class="product-info">
+                    <p class="category">Collares</p>
+                    <h3>Collar Gargantilla Diamantes</h3>
+                    <p class="price"><span class="old">$3,200.00</span>$2,720.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=600" alt="Aretes de oro">
+                </div>
+                <div class="product-info">
+                    <p class="category">Aretes</p>
+                    <h3>Aretes Largos Oro Blanco</h3>
+                    <p class="price">$789.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <span class="badge">Nuevo</span>
+                    <img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600" alt="Pulsera de diamantes">
+                </div>
+                <div class="product-info">
+                    <p class="category">Pulseras</p>
+                    <h3>Pulsera Tennis Diamantes</h3>
+                    <p class="price">$4,500.00</p>
+                    <button class="add-to-cart">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner de Promoción -->
+    <section class="promo-banner">
+        <h2>Envío Gratis en Compras Superiores a $500</h2>
+        <p>Y devoluciones sin coste durante 30 días</p>
+        <a href="#productos" class="btn">Aprovecha la Oferta</a>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>LUXE Joyas</h3>
+                <p>Creando momentos inolvidables desde 1995. Cada pieza está elaborada con los más altos estándares de calidad.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Tienda</h3>
+                <a href="#">Anillos</a>
+                <a href="#">Collares</a>
+                <a href="#">Aretes</a>
+                <a href="#">Pulseras</a>
+                <a href="#">Colecciones</a>
+            </div>
+
+            <div class="footer-col">
+                <h3>Ayuda</h3>
+                <a href="#">Envíos y Entregas</a>
+                <a href="#">Devoluciones</a>
+                <a href="#">Guía de Tallas</a>
+                <a href="#">Cuidado de Joyas</a>
+                <a href="#">Preguntas Frecuentes</a>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Principal 123, Ciudad</p>
+                <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                <p><i class="fas fa-envelope"></i> info@luxejoyas.com</p>
+                <p><i class="fas fa-clock"></i> Lun - Sáb: 10am - 8pm</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 LUXE Joyas. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Slider =====
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
+
+        function prevSlide() {
+            let prev = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prev);
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(slideInterval);
+            startAutoSlide();
+        }
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoSlide();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoSlide();
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                resetAutoSlide();
+            });
+        });
+
+        startAutoSlide();
+
+        // Pausar al pasar el ratón
+        const slider = document.querySelector('.slider-container');
+        slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        slider.addEventListener('mouseleave', startAutoSlide);
+
+        // Soporte táctil (swipe)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+                resetAutoSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                prevSlide();
+                resetAutoSlide();
+            }
+        });
+
+        // ===== Menú Móvil =====
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ===== Botones Añadir al carrito =====
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = '¡Añadido!';
+                this.style.background = '#b8860b';
+                this.style.color = '#fff';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = 'transparent';
+                    this.style.color = '#b8860b';
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
